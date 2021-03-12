@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	 <record id="school_form" model="ir.ui.view">
+            <field name="name">school.form</field>
+            <field name="model">recuirment</field>
+            <field name="arch" type="xml">
+                <form string="Recruitment">
+                	<header>
+                        <button string="Process"  type="object" name="process_progressbar"/>
+                        <button string="Need Demo" type="object" name="demo_progressbar" attrs= "{'invisible':[('Demo','!=',True)]}"/>
+                       <button string="Done" type="object" state ="draft,need_demo,process" name="done_progressbar"  attrs="{'invisible':[('state', 'in', ['new', 'done'])]}" />
+                       <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                	<sheet> 
+                        <group>
+                            <group string="Recruitment">
+                                    <field name="Id"/>
+                                    <field name="name"/>        
+    			                    <field name="age"/>
+                                    <field name="Demo"/> 
+                                    <field name="subject"/>
+                                    <field name="experiance"/>
+                                    <!-- <field name="standard"/> -->
+                                    <field name="standard_ids"  widget="many2many_tags"/>
+                                </group>
+                                <group string="Additional Info">
+                                    <!-- <field name = "status"/>                                     -->
+                                    <field name="joining_date" attrs="{'invisible':[('state', '!=', 'done')]}"/> 
+                                
+                                </group>
+                                </group> 
+                                <notebook>
+                                <page string="Documents">     
+                                    <field name="document_ids"/>
+                                </page>                              
+                                <page string="Students">
+                                    <tree string="Students">
+                                        <field name="student_id"  string="Students" widget="many2many_tags"/>
+                                    </tree>
+                                </page>
+                                </notebook>
+                        
+			        </sheet>                             
+                </form>
+            </field>
+        </record>
+
+        <record id="school_tree" model="ir.ui.view">
+            <field name="name">school.tree</field>
+            <field name="model">recuirment</field>
+            <field name="arch" type="xml">
+                <tree string="school">
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="joining_date"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="school_action">
+            <field name="name">Recuirment</field>
+            <field name="res_model">recuirment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+        <menuitem id="school_id" name="School Management"/>
+        <menuitem parent="school_id" id="school_menu" name="Recruitment" action="school_action" />
+
+        <!-- <menuitem parent="hospital" id="tablet_menu" name="Tablet" action="tablet_action"/> -->
+
+</odoo>

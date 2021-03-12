@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+        <record id = "hospital_search" model="ir.ui.view">
+                <field name="name">hospital.search</field>
+                <field name="model">hospital</field>
+                <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <filter string="Done" name="state" domain="[('state','=','done')]"/>
+                    <filter string="Draft" name="state" domain="[('state','=','draft')]"/>
+                </search>
+                </field>
+        </record>
+
+        <record id="hospital_form" model="ir.ui.view">
+            <field name="name">hospital.form</field>
+            <field name="model">hospital</field>          
+            <field name="arch" type="xml">
+                <form string="Hospital">
+                    <header>
+                       <button string="Done" state ="draft" type="object" name="done_progressbar"  attrs="{'invisible':[('state', 'in', ['new', 'done'])]}"/>
+                       <button string="method" state ="draft" type="object" name="method"/>
+                        <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                	<sheet> 
+                        <sheet><div class="oe_title"><label for="name" class="oe_edit_only"/><h1><field name="name"/></h1></div></sheet>
+
+                        <group string="Hospital" col="4">
+                            <field name="age"/>
+                            <field name="notes"/>
+                            <field name="doctor" string="Doctor"/>
+                        </group>
+                           
+                        <notebook>
+                            <page string="Tablet">
+                                <field name="tablet_id">
+                                    <tree editable="bottom">
+                                        <field name="tab" widget="selection" required="True"/>
+                                        <field name="qty" required="True" />
+                                        <field name="price" required="True" />
+                                        <field name="total" required="True" />
+                                    </tree>                                       
+                                </field>
+                            </page>
+                        </notebook>   
+                        <group class="oe_subtotal_footer oe_right" colspan="2">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="sub_total" />
+                        </div>
+                            <field name="sub_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary'/>
+                        </group>              
+			        </sheet> 
+                </form>
+            </field>
+        </record>
+
+       
+        <record id="hospital_tree" model="ir.ui.view">
+            <field name="name">hospital.tree</field>
+            <field name="model">hospital</field>
+            <field name="arch" type="xml">
+                <tree string="Hospital">
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="notes"/>
+                    <field name="tablet_id"/> 
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="hospital_action">
+            <field name="name">Hospital</field>
+            <field name="res_model">hospital</field>
+            <field name="view_mode">tree,search,form</field>
+        </record>
+
+        <menuitem id="hospital" name="Hospital"/>
+        <menuitem parent="hospital" id="hospital_menu" name="Patient" action="hospital_action" />
+        <menuitem parent="hospital" id="doctor_menu" name="Doctor" action="doctor_action"/>
+        <menuitem parent="hospital" id="tablet_menu" name="Tablet" action="tablet_action"/>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+         <record id="tablet_form" model="ir.ui.view">
+            <field name="name">tablet.form</field>
+            <field name="model">tablet</field>
+            <field name="arch" type="xml">
+                <form string="tablet">
+                	<sheet> 
+                        <group>
+                            <group string="tablet">
+			                    <field name="tab_name" required="True"/>
+			                    <field name="quantity" required="True"/>
+                              
+                                    
+			                </group>
+			            </group>
+			        </sheet>                             
+                </form>
+            </field>
+        </record>
+
+        <record id="tablet_tree" model="ir.ui.view">
+            <field name="name">tablet.tree</field>
+            <field name="model">tablet</field>
+            <field name="arch" type="xml">
+                <tree string="tablet">
+                    <field name="tab_name"/>
+                    <field name="quantity"/> 
+                   
+                                    
+                </tree>
+            </field>
+        </record>
+
+
+         <record model="ir.actions.act_window" id="tablet_action">
+            <field name="name">Tablet</field>
+            <field name="res_model">tablet</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details of student
+                </p>
+            </field> -->
+        </record>
+       <!--  <menuitem id="tablet_data" name="tablet"/>
+        <menuitem parent="tablet_data" id="emp_menu" name="Patient" action="tablet_action" />
+        <menuitem parent="tablet_data" id="doc_menu" name="Doctor" action="tablet_action"/> -->
+</odoo>

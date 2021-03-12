@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  
+	 <record id="student_form" model="ir.ui.view">
+            <field name="name">student.form</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <form string="Student">
+                	<header>
+                       <button string="Process"  type="object" name="process_progressbar"/>
+                       <button string="Done" type="object" state ="draft,process" name="done_progressbar"  attrs="{'invisible':[('state', 'in', ['new', 'done'])]}"/>
+                       <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                	<sheet> 
+                        <group>
+                            <group string="student">
+			                    <field name="name"/>
+			                    <field name="age"/>
+                                <field name="DOB"/>
+                                <field name="hobbies"/>
+                                <field name="image"/>
+                                <field name="standard_id" />
+			                </group>
+			            </group>
+                        <notebook>
+                        <page string="teacher">
+                            <tree string='Teachers' editable='bottom'>
+                                 <field name='tec_ids' context="{'stu': standard_id}" attrs="{'invisible':[('state','in','draft')]} "/>
+                            </tree>
+                        </page>
+                    </notebook>    
+			        </sheet>                        
+
+                </form>
+            </field>
+        </record>
+
+        <record id="student_tree" model="ir.ui.view">
+            <field name="name">student.tree</field>
+            <field name="model">student</field>
+            <field name="arch" type="xml">
+                <tree string="student">
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="image"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="student_action">
+            <field name="name">Student</field>
+            <field name="res_model">student</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="school_id" name="School Management"/>
+        <menuitem parent="school_id" id="student_menu" name="Student" action="student_action"/>
+
+</odoo>

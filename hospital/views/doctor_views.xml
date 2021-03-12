@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+         <record id="doctor_form" model="ir.ui.view">
+            <field name="name">doctor.form</field>
+            <field name="model">doctor</field>
+            <field name="arch" type="xml">
+                <form string="Doctor">
+                    <header>
+                       <button string="method" state ="draft" type="object" name="method1"/>
+                    </header>
+                	<sheet> 
+                        <group>
+                            <group string="Doctor">
+			                    <field name="name"/>
+			                    <field name="age"/>
+                                <field name="patient"/>
+                                <!-- <field name="patient_id"/> -->
+                                <!-- <field name="patient" /> -->
+			                </group>
+			            </group>
+			        </sheet>                             
+                </form>
+            </field>
+        </record>
+
+        <record id="hospital_kanban_view" model="ir.ui.view">
+            <field name="name">hospital.kanban</field>
+            <field name="model">hospital</field>
+            <field name="arch" type="xml">
+                <kanban string="hospital">
+                  
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hospital_master_kanban">
+                                <div class="col-md-3">
+                                <ul>
+                                    <li><h3>
+                                        <field name="id"/>
+                                    </h3></li>
+                                     
+                                    <li>
+                                        <field name="name"/>
+                                    </li>
+                                    <li>
+                                        <field name="age"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="doctor_tree" model="ir.ui.view">
+            <field name="name">doctor.tree</field>
+            <field name="model">doctor</field>
+            <field name="arch" type="xml">
+                <tree string="Doctor">
+                    <!-- <field name="id"/> -->
+                    <field name="name"/>
+                    <field name="age"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+         <record model="ir.actions.act_window" id="doctor_action">
+            <field name="name">Doctor</field>
+            <field name="res_model">doctor</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+
+      </odoo>
