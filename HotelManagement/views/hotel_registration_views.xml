@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sequence_self_service" model="ir.sequence">
+       <field name="name">Self Service</field>
+       <field name="code">self.service</field>
+       <field name="active">TRUE</field>
+       <field name="prefix">R</field>
+       <field name="padding">3</field>
+       <field name="number_increment">1</field>
+    </record>
+
+
+	<record id="regi_form" model="ir.ui.view">
+            <field name="name">Regi</field>
+            <field name="model">hotel.registration</field>
+            <field name="arch" type="xml">
+                <form string="room">
+                    <header>
+                       <button string="Process" state ="draft" type="object" name="process_progressbar"/>
+                       <button string="Done" state ="draft" type="object" name="done_progressbar"  attrs="{'invisible':[('state', 'in', ['new', 'done'])]}"/>
+                       <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="registration_sequence"/> 
+                            <field name="customer_name"/>
+                            <field name="mobile"/>
+                            <field name="date_of_birth"/>                            
+                        </group>
+                    <notebook>
+                        <page string="Document">
+                            <field name="document" required='True'/>
+                        </page>
+                        <page string="Guest List">
+                            <field name="guest_list"/> 
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+   <record id="regi_tree" model="ir.ui.view">
+            <field name="name">Regi</field>
+            <field name="model">hotel.registration</field>
+            <field name="arch" type="xml">
+                <tree string="registration">
+                    <field name="customer_name"/>
+                    <field name="mobile"/>
+                    <field name="date_of_birth"/>
+                    <field name="document"/>
+                    <field name="guest_list"/>
+                </tree>
+            </field>
+    </record>
+
+       
+
+
+    <record model="ir.actions.act_window" id="registration_action">
+        <field name="name">Regi</field>
+        <field name="res_model">hotel.registration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Enter details
+            </p>
+        </field>
+    </record>
+
+       
+    
+
+</odoo>

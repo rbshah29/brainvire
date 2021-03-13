@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	 <record id="room_form" model="ir.ui.view">
+            <field name="name">Inquiry</field>
+            <field name="model">registration.inquiry</field>
+            <field name="arch" type="xml">
+                <form string="room">
+                <group>
+                    <field name="customer"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="room_type_id"/>
+                    <field name="room_size"/>
+                </group>
+                <footer>
+                    <button name="one" string="Search" type="object" class="oe_link"/>
+                </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="inquiry_action" model="ir.actions.act_window">
+              <field name="name">Inquiry</field>
+              <field name="type">ir.actions.act_window</field>
+              <field name="res_model">registration.inquiry</field>
+              <field name="view_mode">form</field>
+              <field name="target">new</field>
+              <field name="view_id" ref="room_form"/>
+              <field name="target">new</field>
+         </record>
+        
+
+         <menuitem parent="regi_menu" id="inquiry_action_menu" name="Inquiry" action="inquiry_action" />
+    
+
+</odoo>
