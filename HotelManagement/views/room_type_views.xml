@@ -5,7 +5,7 @@
             <field name="model">room.type</field>
             <field name="arch" type="xml">
                 <form string="room">
-                      <field name="type"/>                          
+                      <field name="type_name"/>                          
                 </form>
             </field>
         </record>
@@ -16,7 +16,7 @@
             <field name="model">room.type</field>
             <field name="arch" type="xml">
                 <tree string="room">
-                	<field name="type"/>
+                	<field name="type_name"/>
                 </tree>
             </field>
         </record>

@@ -13,6 +13,7 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'wizards/room_inquiry_wizard_views.xml',
         'views/hotel_room_views.xml',
         'views/room_type_views.xml',
         'views/hotel_registration_views.xml',

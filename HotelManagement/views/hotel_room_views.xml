@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form string="room">
                      <header>
-                       <button string="Process" state ="draft" type="object" name="process_progressbar"/>
+                       <button string="draft" state ="draft" type="object" name="process_progressbar"/>
                        <field name="state" widget="statusbar" clickable="True"/>
                     </header>
                 	<sheet> 
@@ -22,21 +22,7 @@
             </field>
         </record>
 
-
-      <!-- <record id="room_tree" model="ir.ui.view">
-            <field name="name">tree</field>
-            <field name="model">hotel.room</field>
-            <field name="arch" type="xml">
-                <tree string="registration">
-                    <field name="room_no"/>
-                    <field name="room_type"/>
-                    <field name="hotel_floor"/>
-                    <field name="room_size"/>
-                </tree>
-            </field>
-    </record>
- -->
-    <record id="Room_tree" model="ir.ui.view">
+        <record id="Room_tree" model="ir.ui.view">
             <field name="name">tree</field>
             <field name="model">hotel.room</field>
             <field name="arch" type="xml">
@@ -46,6 +32,7 @@
                     <field name="room_type"/>
                     <field name="hotel_floor"/>
                     <field name="room_size"/>
+                    <field name="state"/>
                                                     
                 </tree>
             </field>
@@ -64,9 +51,13 @@
         
         <menuitem id="hotel_management" name="Hotel"/>
 
-        <menuitem parent="hotel_management" id="hotel_menu" name="Room" action="room_action" />
+        <menuitem parent="hotel_management" id="hotel_menu" name="Room"/>
 
-        <menuitem parent="hotel_management" id="regi_menu" name="Registration"/>
+        <menuitem parent="hotel_menu" id="hotel_menu_item" name="Room" action="room_action" />
+
+        <menuitem parent="hotel_menu" id="room_type_action" name="Room Type" action="room_type_action"/>
+
+        <menuitem parent="hotel_management" id="regi_menu" name="Inquiry"/>
 
        <menuitem parent="regi_menu" id="regi_submenu" name="Registration" action="registration_action"/>  
 

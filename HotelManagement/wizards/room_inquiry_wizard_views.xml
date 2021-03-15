@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-	 <record id="room_form" model="ir.ui.view">
+	 <record id="room_form_inquiry" model="ir.ui.view">
             <field name="name">Inquiry</field>
-            <field name="model">registration.inquiry</field>
+            <field name="model">room.inquiry</field>
             <field name="arch" type="xml">
-                <form string="room">
+              <form string="room">
                 <group>
-<!--                     <field name="customer"/>
- -->                <field name="start_date"/>
-                    <field name="end_date"/>
-                    <field name="room_type_id"/>
-                    <field name="room_size"/>
+                    <field name='room_ids'/>
+                    <!-- <field name="regi"/> -->
                 </group>
-                <footer>
-                    <button name="one" string="Search" type="object" class="oe_link"/>
-                </footer>
-                </form>
+              </form>
             </field>
         </record>
 
         <record id="inquiry_action" model="ir.actions.act_window">
               <field name="name">Inquiry</field>
               <field name="type">ir.actions.act_window</field>
-              <field name="res_model">registration.inquiry</field>
+              <field name="res_model">room.inquiry</field>
               <field name="view_mode">form</field>
               <field name="target">new</field>
-              <field name="view_id" ref="room_form"/>
+              <field name="view_id" ref="room_form_inquiry"/>
               <field name="target">new</field>
          </record>
-        
+ <!--        
 
          <menuitem parent="regi_menu" id="inquiry_action_menu" name="Inquiry" action="inquiry_action" />
     
-
+ -->
 </odoo>

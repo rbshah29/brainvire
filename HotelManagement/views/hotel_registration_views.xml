@@ -26,6 +26,9 @@
                             <field name="customer_name"/>
                             <field name="mobile"/>
                             <field name="date_of_birth"/>                            
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            
                         </group>
                     <notebook>
                         <page string="Document">
@@ -33,6 +36,9 @@
                         </page>
                         <page string="Guest List">
                             <field name="guest_list"/> 
+                        </page>
+                        <page string="Rooms">
+                            <field name='room_regi_ids' />
                         </page>
                     </notebook>
                     </sheet>
