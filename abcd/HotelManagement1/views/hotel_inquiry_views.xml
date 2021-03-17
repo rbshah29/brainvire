@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+        <record id="hotel_inquiry_form" model="ir.ui.view">
+            <field name="name">form</field>
+            <field name="model">registration.inquiry</field>
+            <field name="arch" type="xml">
+                <form string="Inquiry">
+                    <header> 
+                        <!-- using context to set default value from one object to another via button -->
+                       <button string="Submit"  type="object" name="inquiry_one" context='{"default_customer_name":customer,
+                        "default_start_date":startDate,
+                        "default_end_date":endDate,
+                        }'/>
+                       <button string="Search"  type="object" name="search_one"/>
+                    </header>
+                    <sheet>
+                    <group>
+                    <field name="customer"/>
+                    <field name="startDate"/>
+                    <field name="endDate"/>
+                    <field name="room_type_id"/>
+                    <field name="room_size"/>
+                     </group>
+                      <notebook>
+                        <page string="Rooms">
+                            <field name="room_regi" widget="many2many">
+                                <tree editable="bottom">
+                                    <field name="room_type"/>
+                                    <field name="boolean" widget='boolean_toggle'/>
+                                    <field name="room_no"/>
+                                </tree>
+                            </field>
+                        </page>
+                     </notebook>
+                    </sheet>           
+                </form> 
+            </field>
+        </record>
+
+        <record id="hotel_inquiry_tree" model="ir.ui.view">
+            <field name="name">tree</field>
+            <field name="model">registration.inquiry</field>
+            <field name="arch" type="xml">
+                <tree string="room">
+              
+                   <field name="customer"/>
+                    <field name="startDate"/>
+                    <field name="endDate"/>
+                    <field name="room_type_id"/>
+                    <field name="room_size"/>
+                                                    
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="inquiry_action">
+            <field name="name">Inquiry</field>
+            <field name="res_model">registration.inquiry</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+        <menuitem parent="hotel_management" id="inquiry_menu" name="Inquiry" action="inquiry_action"/>
+
+</odoo>
