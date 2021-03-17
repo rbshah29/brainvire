@@ -26,7 +26,7 @@
                             <field name="customer_name"/>
                             <field name="mobile"/>
                             <field name="date_of_birth"/>
-                        </group>
+                            </group>
                         <group>
                             <field name="start_date"/>
                             <field name="end_date"/>
@@ -41,9 +41,9 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="ROOM_M2O">
+                       <!--  <page string="ROOM_M2O">
                             <field name='room_regi_ids'/>
-                        </page>
+                        </page> -->
                         <page string="Guest List">
                             <field name="guest_list"/> 
                         </page>
