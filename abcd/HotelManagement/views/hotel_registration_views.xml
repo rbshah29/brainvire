@@ -25,8 +25,7 @@
                             <field name="registration_sequence"/> 
                             <field name="customer_name"/>
                             <field name="mobile"/>
-                            <field name="date_of_birth"/>                            
-                            
+                            <field name="date_of_birth"/>
                         </group>
                         <group>
                             <field name="start_date"/>
@@ -35,7 +34,15 @@
                         </group>
                     <notebook>
                         <page string="Rooms">
-                            <field name='room_regi_ids' />
+                            <field name='room_ids'>
+                                <tree editable="bottom">
+                                    <field name="room_id"/>
+                                    <field name="guest_ids" widget='many2many_tags'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="ROOM_M2O">
+                            <field name='room_regi_ids'/>
                         </page>
                         <page string="Guest List">
                             <field name="guest_list"/> 

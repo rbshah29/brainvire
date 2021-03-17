@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	
+
         <record id="hotel_inquiry_form" model="ir.ui.view">
             <field name="name">form</field>
             <field name="model">registration.inquiry</field>
@@ -11,7 +11,7 @@
                        <button string="Submit"  type="object" name="inquiry_one" context='{"default_customer_name":customer,
                         "default_start_date":startDate,
                         "default_end_date":endDate,
-                        }'/>
+                         }'/>
                        <button string="Search"  type="object" name="search_one"/>
                     </header>
                     <sheet>

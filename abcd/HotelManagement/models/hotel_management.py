@@ -18,7 +18,7 @@ class HotelRoom(models.Model):
         ('draft', 'Draft'),
             ('allocated', 'Allocated')],default='draft')
 
-    #to display room_no , room_type , state together:- using name get
+    #to display room_no , room_type , state together:- using name_get method
     def name_get(self):
         res = []
         for rec in self:
@@ -47,6 +47,8 @@ class HotelRegistration(models.Model):
     customer_name = fields.Many2one('res.partner')
     mobile = fields.Integer()
     date_of_birth = fields.Date()
+
+    room_ids = fields.One2many('customer.guest.line','regi_id')
 
     room_regi_ids = fields.Many2one('hotel.room' , domain=[('state','=','draft')])
 
@@ -116,21 +118,25 @@ class RegistrationInquiry(models.Model):
     room_size = fields.Integer(required=True)
     room_regi = fields.One2many('hotel.room' ,'many_one', domain=[('state','=','draft')])
 
+
+
     #function for button 
     def search_one(self):
         #to search requirment from other object
         filtered = self.env['hotel.room'].search([('state','=','draft'),('room_type','=',self.room_type_id.id),
             ('room_size','>',self.room_size)])
         #i dont know this one
-        self.room_regi=[(4,0,[])]
+        self.room_regi=[(6,0,[])]
         self.write({'room_regi':filtered})
+
         return 
     #function for button
     def inquiry_one(self):
         print("\n\n\n\n\n\n--------_________-------______-----_____--")
         #to check conditoins 
         inquiry = self.env['hotel.room'].search(['&',('room_type','=',self.room_type_id.id),
-            ('room_size','>=',self.room_size),('state','=','draft')])   
+            ('room_size','>=',self.room_size),('state','=','draft')]) 
+
         if inquiry:
             print("---------------->>>>>>>>>>>>----AVAIABLE-------<<<<<<<<<<-------------")
             #if condition is satisfied it will return a specific view
@@ -148,3 +154,10 @@ class RegistrationInquiry(models.Model):
         else:
             print("___--------___________---------____________--------___________----------________---------_______")
             raise ValidationError("Room not AVAIABLE")
+
+class GuestLine(models.Model):
+    _name = 'customer.guest.line'
+
+    guest_ids = fields.Many2many("customer.guest",required=True)
+    regi_id = fields.Many2one('hotel.registration')
+    room_id = fields.Many2one('hotel.room')
