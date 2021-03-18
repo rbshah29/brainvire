@@ -1,6 +1,8 @@
 from odoo import models,fields,api
 from odoo.exceptions import ValidationError,Warning
 from lxml import etree
+import datetime
+
 
 # table for hotel room
 class HotelRoom(models.Model):
@@ -23,7 +25,7 @@ class HotelRoom(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, '%s---%s---%s' % (rec.room_no,rec.room_type.type_name,rec.state)))
+            res.append((rec.id, '%s---%s' % (rec.room_no,rec.room_type.type_name)))
 
         return res
 
@@ -45,36 +47,46 @@ class RoomType(models.Model):
 class HotelRegistration(models.Model):
     _name = "hotel.registration"
     registration_sequence = fields.Char(string="Registration no.", readonly=True, required=True, copy=False, default='New')
-    customer_name = fields.Many2one('res.partner')
+
+    customer_name = fields.Many2one('res.partner',required=True)
+
     mobile = fields.Integer()
+
     date_of_birth = fields.Date()
 
     #we can use either this for customer and guest  
     #1
-    room_ids = fields.One2many('customer.guest.line','regi_id')
+    room_ids = fields.One2many('customer.guest.line','regi_id',required=True)
     #2
     room_regi_ids = fields.Many2one('hotel.room' , domain=[('state','=','draft')])
 
+    # creat_date = fields.Date(string='Date of registration', default=datetime.datetime.today())
+
     document = fields.One2many('customer.document','regi',required=True)
 
-    guest_list = fields.One2many('customer.guest','registration_guest')
+    guest_list = fields.One2many('customer.guest','registration_guest',required=True)
 
-    start_date = fields.Date('Start Date')
-    end_date = fields.Date('End Date')
+    start_date = fields.Date('Start Date',required=True)
+
+    end_date = fields.Date('End Date',required=True)
+
+    #this is cron method that we want to call
+    def cancle_method(self):
+        print("----->>>>>>>>inside")
+        previous_date = datetime.datetime.today() - datetime.timedelta(days=3)  
+        cancel_id = self.env["hotel.registration"].search([("state", "=", "process"),('create_date', '<=', previous_date)]) 
+        print(cancel_id)
+        for reg in cancel_id:
+            print("-------------------------------->>>>>>>>>>>inside")
+            reg.state = 'cancel'
 
     #works when save button is clickes(overwrite save button)
-    #function to get sequence number automatically
+    #function to get sequence number automatically      
     @api.model
     def create(self, vals):
        if vals.get('registration_sequence', 'New') == 'New':
            vals['registration_sequence'] = self.env['ir.sequence'].next_by_code(
-               'self.service') or 'New'
-
-       # to make state of specific room allocated when save is pressed    
-       # val = {'state':'allocated'}
-       # room_allocate = self.env['hotel.room'].search([('id', '=', vals['room_regi_ids'])])
-       # for i in room_allocate:
-       #      i.write(val)
+               'self.service') or 'New'  
 
        result = super(HotelRegistration, self).create(vals)
        return result
@@ -82,7 +94,7 @@ class HotelRegistration(models.Model):
 
     state = fields.Selection([
         ('draft', 'Draft'),
-            ('process', 'Process'),('done','Done')],default='draft')
+            ('process', 'Process'),('done','Done'),('cancel','Cancel')],default='draft')
 
     def process_progressbar(self):
             self.write({
@@ -90,9 +102,14 @@ class HotelRegistration(models.Model):
             })
 
     def done_progressbar(self):
-            self.write({
-            'state':'done'
-            })
+        for rec in self:
+            print("_____-----_____________-----________------_________")
+            rec.room_ids.room_id.state = 'allocated'
+        self.write({
+        'state':'done'
+        })
+            
+
 
 # table for CustomerGuest
 class CustomerGuest(models.Model):
@@ -152,7 +169,7 @@ class RegistrationInquiry(models.Model):
                 if j.boolean:
                     res.append({'room_id':j.id})
 
-        #if these condition are true then ir will return anything given             
+        #if these condition are true then it will return anything given             
         inquiry = self.env['hotel.room'].search(['&',('room_type','=',self.room_type_id.id),
             ('room_size','>=',self.room_size),('state','=','draft')]) 
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- this one create print action with action in  form view  -->
+<!-- this is a template you want to print -->
+    <template id="action_report_registration">
+    <t t-call="web.external_layout">
+     <div class="page">
+            <div class="oe_structure"/>
+           <strong>Your Registration Number:-</strong><br/>
+            <h1>
+                <span t-field="doc.registration_sequence"/>
+            </h1>
+            <strong>Customer Name:- </strong>
+           <span t-field="doc.customer_name"/><br/>
+            <strong>Start Date:- </strong>
+            <span t-field="doc.start_date"/><br/>
+            <strong>End Date:- </strong>
+            <span t-field="doc.end_date"/><br/>
+            <strong>Rooms You have Booked:- </strong>
+        <table class="table table-sm o_main_table">
+                <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                <thead style="display: table-row-group">
+                    <tr  class="text-center">
+                        <th name="th_description" class="text-left">Room</th>
+                        <th name="th_description" class="text-left">Guests</th>
+
+                        </tr>
+                </thead>  
+                <tbody class="sale_tbody">
+                    <td name="td_name" class="text-center">
+                        <!-- to display fields inside one2many using for loop  -->
+                         <t t-foreach='doc.room_ids' t-as='line'>
+                            <span t-field="line.room_id"/><br/>
+                        </t>
+                    </td>
+                    <td>
+                        <t t-foreach='doc.room_ids' t-as='line'>
+                            <span t-field="line.guest_ids"/><br/></t>
+                    </td>
+                </tbody>              
+                         <!--    <tr>
+                        <t t-foreach='doc.room_ids' t-as='line'>
+                            <span t-field="line.room_id"/><br/>
+                        </t></tr> -->
+        </table>
+    </div>
+    </t>
+    </template>
+<!-- this is a data file you link with youe model -->
+    <data>
+        <record id="action_report_registration" model="ir.actions.report">
+            <field name="name">Form View</field>
+            <field name="model">hotel.registration</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">HotelManagement.report_registration</field>
+            <field name="report_file">HotelManagement.report_registration</field>
+            <field name="binding_model_id" ref="model_hotel_registration"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+
+
+<!-- this is a template file that call data and other template file -->
+    <template id="report_registration">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="HotelManagement.action_report_registration" t-lang="doc.customer_name.lang"/>             
+            </t>
+        </t>
+    </template>
+
+</odoo>

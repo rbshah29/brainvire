@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	   <record id = "hospital_search" model="ir.ui.view">
+	  <!--  <record id = "hospital_search" model="ir.ui.view">
                 <field name="name">search</field>
                 <field name="model">hotel.room</field>
                 <field name="arch" type="xml">
@@ -11,7 +11,7 @@
                     
                 </search>
                 </field>
-        </record>
+        </record> -->
 
         <record id="hotel_room_form" model="ir.ui.view">
             <field name="name">form</field>

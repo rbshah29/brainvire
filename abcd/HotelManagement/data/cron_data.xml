@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- this is use to do cron job  -->
+   <record id="registration_cancle" model="ir.cron">
+     <field name="interval_type">days</field>
+     <field name="name">Registration cancle</field>
+     <field name="numbercall">-1</field>
+     <field name="interval_number">1</field>
+     <field name="active">True</field>
+     <field name="state">code</field>
+     <!-- a method you want to call -->
+     <field name="code">model.cancle_method()</field>
+            <field name="model_id" ref="HotelManagement.model_hotel_registration"/>
+   </record>
+</odoo>

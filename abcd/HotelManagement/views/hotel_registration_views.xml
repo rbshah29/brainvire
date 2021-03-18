@@ -62,6 +62,7 @@
                     <field name="date_of_birth"/>
                     <field name="document"/>
                     <field name="guest_list"/>
+                    <field name="state"/>
                 </tree>
             </field>
     </record>
