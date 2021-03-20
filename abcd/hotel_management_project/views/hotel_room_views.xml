@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	  <!--  <record id = "hospital_search" model="ir.ui.view">
+                <field name="name">search</field>
+                <field name="model">hotel.room</field>
+                <field name="arch" type="xml">
+                <search>
+                    <filter string="Delux" name="room_type" domain="[('room_type','=','delux')]"/>
+                    <filter string="King Size" name="room_type" domain="[('room_type','=','king size')]"/>
+                    <filter string="Super Delux" name="room_type" domain="[('room_type','=','super delux')]"/>
+                    
+                </search>
+                </field>
+        </record> -->
+
+        <record id="hotel_room_form" model="ir.ui.view">
+            <field name="name">form</field>
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <form string="room">
+                     <header>
+                       <button string="draft" state ="draft" type="object" name="process_progressbar"/>
+                       <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                	<sheet> 
+                        <group>
+			                    <field name="room_no"/>
+			                    <field name="room_type"/>
+                                <field name="hotel_floor"/>
+                                <field name="room_size"/>
+                                <field name="room_price"/>
+			            </group>
+			        </sheet>                             
+                </form>
+            </field>
+        </record>
+
+        <record id="Room_tree" model="ir.ui.view">
+            <field name="name">tree</field>
+            <field name="model">hotel.room</field>
+            <field name="arch" type="xml">
+                <tree string="room">
+              
+                    <field name="room_no"/>
+                    <field name="room_type"/>
+                    <field name="hotel_floor"/>
+                    <field name="room_size"/>
+                    <field name="state"/>
+                                                    
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="room_action">
+            <field name="name">Room</field>
+            <field name="res_model">hotel.room</field>
+            <field name="view_mode">tree,search,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+        
+        <menuitem id="hotel_management_projectement" name="Hotel"/>
+
+        <menuitem parent="hotel_management_projectement" id="hotel_menu" name="Room"/>
+
+        <menuitem parent="hotel_menu" id="hotel_menu_item" name="Room" action="room_action" />
+
+        
+
+        <!-- <menuitem parent="hotel_management_projectement" id="regi_menu" name="Inquiry"/> -->
+
+       
+
+       
+    
+
+
+      </odoo>

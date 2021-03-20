@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- this one create print action with action in  form view  -->
+<!-- this is a template you want to print -->
+    <template id="action_report_registration_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <table>
+                            <tr>
+                                <th colspan='2'>
+                                    <strong>Customer Name:-</strong>
+                                    <span t-field="doc.customer"/><br/>
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    <strong>room type:-</strong>
+                                    <span t-field="doc.room_type_id"/><br/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    <span t-field="doc.room_size"/><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+
+    </template>
+<!-- this is a data file you link with youe model -->
+    <data>
+        <record id="action_report_registration_id" model="ir.actions.report">
+            <field name="name">Form View</field>
+            <field name="model">registration.inquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hotel_management_project.report_registration_id</field>
+            <field name="report_file">hotel_management_project.report_registration_id</field>
+            <!-- which name of print will be downloaded in your device  -->
+            <field name="print_report_name">'Inquiry - %s' % (object.customer.name)</field>
+            <field name="binding_model_id" ref="model_registration_inquiry"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+
+
+<!-- this is a template file that call data and other template file -->
+    <template id="report_registration_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="hotel_management_project.action_report_registration_id" t-lang="doc.customer.lang"/>             
+            </t>
+        </t>
+    </template>
+
+</odoo>
