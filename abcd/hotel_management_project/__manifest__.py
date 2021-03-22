@@ -23,6 +23,7 @@
         'views/customer_document_views.xml',
         'views/hotel_inquiry_views.xml',
         'report/report_print.xml',
+        'report/report_xlsx.xml',
         
 
 

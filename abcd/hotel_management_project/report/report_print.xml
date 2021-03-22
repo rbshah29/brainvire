@@ -4,38 +4,41 @@
 <!-- this is a template you want to print -->
     <template id="action_report_registration">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
                     <div class="page">
                         <div class="oe_structure"/>
-
-<!--                         <span t-esc="one_method(doc)"/>
- -->
                            <strong>Your Registration Number:-</strong><br/>
                             <h1>
-                                <span t-field="doc.registration_sequence" style="background-color:black; color:white;"/>
+                                <span t-field="doc.registration_sequence" style="background-color:black; color:white;"/><br/>
                             </h1>
-                            <div style="text-align:right;">
+
+                            <div>
                             <strong>Customer Name:-</strong>
                                 <span t-field="doc.customer_name" /><br/>
                             </div>
                             <div>
                                 <div style="text-align:left;">
                                     <strong>Start Date:- </strong>
-                                    <span t-field="doc.start_date"/>   
-                                </div>
-                                <div style="text-align:right;">
+                                    <span t-field="doc.start_date"/>  
+                                     &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;                        
                                     <strong>End Date:- </strong>
                                     <span t-field="doc.end_date"/><br/>
                                 </div>
                             </div>
-                            <strong>Rooms You have Booked:- </strong>
+                            <strong>Rooms You have Booked:- </strong><br/><br/>
                                 <table class="table table-sm o_main_table" style="border=1">
-                                    <thead style="display: table-row-group">
+                                    <thead >
                                         <tr  class="text-center">
-                                            <th name="th_description" class="text-left">Room</th>
-                                            <th name="th_description" class="text-left">Room Price</th>
-                                            <th name="th_description" class="text-left">Guests</th>
+                                            <th name="th_description" class="text-left">Room
+                                            </th>
+                                            <th name="th_description" class="text-left">Room Number
+                                            </th>
+                                            <th name="th_description" class="text-left">Guests
+                                            </th>
+                                            <th name="th_description" class="text-right"> Room Price
+                                            </th>
+
                                         </tr>
                                     </thead>  
                                     <tbody class="sale_tbody">
@@ -46,7 +49,7 @@
                                         </td>
                                         <td>
                                              <t t-foreach='doc.room_ids' t-as='line'>
-                                                <span t-field="line.room_id.room_price"/><br/>
+                                                <span t-field="line.room_id.room_no"/><br/>
                                             </t>
                                         </td>
                                         <td>
@@ -54,10 +57,16 @@
                                                 <span t-field="line.guest_ids"/><br/>
                                             </t>
                                         </td>
+                                        <td style="text-align:right;">
+                                             <t t-foreach='doc.room_ids' t-as='line'>
+                                                <span  t-field="line.room_id.room_price"/><br/>
+                                            </t>
+                                        </td>
+                                        
                                     </tbody>              
                                 </table>
-                                <div style="text-align: center;">
-                                <strong>Total Amount you have to pay </strong>
+                                <div style="text-align: right;">
+                                <strong>Grand Total</strong>
                                 <span t-field="doc.total"/>
                             </div>
                 </div>
@@ -66,7 +75,7 @@
 </t>
 
     </template>
-<!-- this is a data file you link with youe model -->
+<!-- this is a data file you link with your model -->
     <data>
         <record id="action_report_registration" model="ir.actions.report">
             <field name="name">Form View</field>

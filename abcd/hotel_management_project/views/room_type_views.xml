@@ -22,7 +22,7 @@
         </record>
 
 
-        <record model="ir.actions.act_window" id="room_type_action">
+        <record model="ir.actions.act_window" id="room_type_action_id">
             <field name="name">RoomType</field>
             <field name="res_model">room.type</field>
             <field name="view_mode">tree,form</field>

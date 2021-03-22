@@ -26,7 +26,7 @@ class HotelRoom(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append((rec.id, '%s---%s' % (rec.room_no,rec.room_type.type_name)))
+            res.append((rec.id, '%s' % (rec.room_type.type_name)))
 
         return res
 
@@ -42,7 +42,7 @@ class RoomType(models.Model):
     _name = 'room.type'
     _rec_name = 'type_name'
 
-    type_name = fields.Char()
+    type_name = fields.Char(required=True)
 
 # table for hotel registration
 class HotelRegistration(models.Model):
@@ -58,11 +58,9 @@ class HotelRegistration(models.Model):
     email_id = fields.Char()
     #we can use either this for customer and guest  
     #1
-    room_ids = fields.One2many('customer.guest.line','regi_id',required=True)
+    room_ids = fields.One2many('customer.guest.line','regi_id',required=True) 
     #2
     room_regi_ids = fields.Many2one('hotel.room' , domain=[('state','=','draft')])
-
-    # creat_date = fields.Date(string='Date of registration', default=datetime.datetime.today())
 
     document = fields.One2many('customer.document','regi',required=True)
 
@@ -113,10 +111,10 @@ class HotelRegistration(models.Model):
             'context': ctx,
         }
 
-
+        # to call cron job method
     def cancle_method(self):
         print("----->>>>>>>>inside")
-        previous_date = datetime.datetime.today() - datetime.timedelta(days=3)  
+        previous_date = datetime.datetime.today() - datetime.timedelta(days=2)  
         cancel_id = self.env["hotel.registration"].search([("state", "=", "process"),('create_date', '<=', previous_date)]) 
         print(cancel_id)
         for reg in cancel_id:
@@ -140,6 +138,9 @@ class HotelRegistration(models.Model):
             ('process', 'Process'),('done','Done'),('cancel','Cancel')],default='draft')
 
     def process_progressbar(self):
+        for rec in self:
+            print("_____-----_____________-----________------_________")
+            rec.room_ids.room_id.state = 'draft'
             self.write({
             'state':'process'
             })
@@ -153,6 +154,16 @@ class HotelRegistration(models.Model):
         })
             
 
+# class CrmReport(models.TransientModel):  
+#     _name = 'crm.won.lost.report'       
+#     start_date = fields.Date('Start Date')    
+#     end_date = fields.Date('End Date',default=fields.Date.today)     
+#     def print_xls_report(self,cr,uid,ids,context=None):       
+#         data= self.read(cr, uid, ids)[0]
+#         return {'type': 'ir.actions.report.xml',               
+#         'report_name': 'hotel_management_project.report_hotel_xls.xlsx',              
+#         'datas': data             
+#         }
 
 # table for CustomerGuest
 class CustomerGuest(models.Model):
@@ -180,11 +191,11 @@ class RegistrationInquiry(models.Model):
     
     # m2ofield connecting res.partner
     customer = fields.Many2one("res.partner",required=True)
-    startDate = fields.Date(required=True)
-    endDate = fields.Date(required=True)
+    startDate = fields.Date()
+    endDate = fields.Date()
     #m2o field connecting room types
     room_type_id = fields.Many2one('room.type',required=True)
-    room_size = fields.Integer(required=True, placeholder="For how many person")
+    room_size = fields.Integer(required=True)
     #o2m connecting hotel room with specific domain
     room_regi = fields.One2many('hotel.room' ,'many_one', domain=[('state','=','draft')])
 
@@ -258,26 +269,14 @@ class GuestLine(models.Model):
     #m2o field connecting hotel rooms
     room_id = fields.Many2one('hotel.room')
 
+class RegiXlsx(models.AbstractModel):
+    _name = 'report.hotel_management_project.report_regi_xlsx'
+    _inherit = 'report.report_xlsx.abstract'
 
-class methodabstract(models.AbstractModel):
-    _name = 'report.hotel_management_project.action_report_registration'
-    _description = 'calling abstract class'
+    def generate_xlsx_report(self, workbook, data, lines):
+        print("\n\n\n\n\n\n\n\n",lines)
+        sheet = workbook.add_worksheet('Registration xlsx')
+        sheet.write(2,2,'customer_name')
+        sheet.write(2,3,'lines.customer_name')
 
-    def _one_method(self,doc):
-        return 'rutvik'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-         docs = self.env['hotel.registration'].browse(docids)
-         print("\n\n\n\n------------inside>>>>>>>>>>>\n\n\n\n\n",docs)
-         return {
-            'doc_ids': docs.ids,
-            'doc_model': 'hotel.registration',
-            'docs': docs,
-            'data':data,
-            'one_method': self._one_method
-        }
-
-
-#class for Mail System
-    
+        
