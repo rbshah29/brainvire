@@ -3,9 +3,10 @@
 	<report
 		id="report_regis_xlx"
 		string="Registration Excel"
-		model="hotel.registration"
+		model="wizard.report"
 		report_type="xlsx"
-		name="hotel_management_project.report_regi_xlsx"
-		file="hotel_management_project.report_regi_xlsx"
+		name="custom.report.xlsx"
+		file="custom.report.xlsx"
+		attachment_use="False"
 		/>
 </odoo>

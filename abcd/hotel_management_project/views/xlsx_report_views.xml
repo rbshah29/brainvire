@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+	 <record id="room_form_report_id" model="ir.ui.view">
+            <field name="name">Report Xlsx</field>
+            <field name="model">wizard.report</field>
+            <field name="arch" type="xml">
+              <form string="room">
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                  <button name="generate_xlsx_report_id" string="Print Report" type="object"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+
+         <record id="report_xlsx" model="ir.actions.act_window">
+              <field name="name">Report</field>
+              <field name="type">ir.actions.act_window</field>
+              <field name="res_model">wizard.report</field>
+              <field name="view_mode">form</field>
+              <field name="target">new</field>
+              <field name="view_id" ref="room_form_report_id"/>
+              <field name="target">new</field>
+         </record>
+        
+
+         <menuitem parent="hotel_management_projectement" id="report_xlsx_id" name="report Xlsx" action="report_xlsx" />
+    </data>
+</odoo>

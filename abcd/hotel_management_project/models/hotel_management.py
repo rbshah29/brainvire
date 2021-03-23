@@ -2,6 +2,9 @@ from odoo import models,fields,api
 from odoo.exceptions import ValidationError,Warning
 from lxml import etree
 import datetime
+import xlsxwriter
+import io
+import base64
 
 
 # table for hotel room
@@ -269,14 +272,84 @@ class GuestLine(models.Model):
     #m2o field connecting hotel rooms
     room_id = fields.Many2one('hotel.room')
 
-class RegiXlsx(models.AbstractModel):
-    _name = 'report.hotel_management_project.report_regi_xlsx'
-    _inherit = 'report.report_xlsx.abstract'
 
-    def generate_xlsx_report(self, workbook, data, lines):
-        print("\n\n\n\n\n\n\n\n",lines)
-        sheet = workbook.add_worksheet('Registration xlsx')
-        sheet.write(2,2,'customer_name')
-        sheet.write(2,3,'lines.customer_name')
+#this class is for xlsx action using wizard
+class WizardReport(models.TransientModel):
+    _name = 'wizard.report'
 
+    date_from = fields.Date() 
+    date_to = fields.Date()
+    
+
+    def generate_xlsx_report_id(self):
+        output = io.BytesIO()
+        print("touchdown\n\n\n\n\n\n\n")
+
+        data = {
+            'start_date': self.date_from.strftime('%d/%b/%Y'),
+            'end_date': self.date_to.strftime('%d/%b/%Y'),
+        }
+
+        
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        merge_format = workbook.add_format({
+        'bold': 1,
+        'border': 1,
+        'align': 'center',
+        'valign': 'vcenter',
+        # 'fg_color': 'yellow'
+        })
+
+        worksheet.set_column(0, 8, 30)
+        worksheet.write(0,0,'Date From',merge_format)
+        worksheet.write(0,2,'Date To',merge_format)
+        
+        
+
+        worksheet.write(0,1,data['start_date'])
+        # print(data['start_date'])
+        worksheet.write(0,3,data['end_date'])
+        record = self.env['hotel.registration'].search([('start_date','>=',self.date_from),('start_date','<=',self.date_to)])
+        worksheet.write(3,0,'Registration Number',merge_format)
+        worksheet.write(3,1,'Customer Name',merge_format)
+        worksheet.write(3,2,'Room',merge_format)
+        worksheet.write(3,3,'Room No',merge_format)
+        row = 4
+        col = 0
+        # worksheet.merge_range('B10:E10','Merge',merge_format)
+        # worksheet.write('B10', 'Hello')
+        for i in record:
+            worksheet.write(row,col,i.registration_sequence)
+            worksheet.write(row,col+1, i.customer_name.name)
+            result = i.room_ids
+            data=result.room_id
+
+            room_list = []
+            room_guest = []
+            for room in i.room_ids.room_id:
+                room_list.append(str(room.room_no))
+
+            for room in i.room_ids.room_id:    
+                room_guest.append(str(room.room_type))
+                
+            room_all = ', '.join(room_list)
+            room_type_all = ', '.join(room_guest)
+            worksheet.write(row,col+2, room_type_all)
+            worksheet.write(row,col+3, room_all)
+           
+                        
+            row +=1
+
+        workbook.close()
+
+        output.seek(0)
+        attch = self.env['ir.attachment'].create({'name': 'Registrations.xlsx', 'datas': base64.b64encode(output.read())})
+        # print(str(self.env['ir.config_parameter'].get_param('web.base.url')) + str(
+        #         '/web/content/' + str(attch.id)))
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/' + str(attch.id) + '?download=True',
+            'target':self
+        }
         
