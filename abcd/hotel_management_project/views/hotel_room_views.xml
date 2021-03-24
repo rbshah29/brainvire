@@ -12,6 +12,7 @@
                 </search>
                 </field>
         </record> -->
+  
 
         <record id="hotel_room_form" model="ir.ui.view">
             <field name="name">form</field>
@@ -23,6 +24,12 @@
                        <field name="state" widget="statusbar" clickable="True"/>
                     </header>
                 	<sheet> 
+                        <div class="oe_button_box" name="button_box">
+                            <button name="get_smart"
+                                 type="object" icon="fa-arrow-down">
+                            <field name="regi_count" string="Registration" widget='statinfo'/>
+                        </button>
+                        </div>
                         <group>
 			                    <field name="room_no"/>
 			                    <field name="room_type"/>
