@@ -6,6 +6,7 @@
             <field name="model">import.room.wizard</field>
             <field name="arch" type="xml">
               <form string="Import">
+                <field name="text"/>
                 <group>
                     <field name="upload"/>
                 </group>

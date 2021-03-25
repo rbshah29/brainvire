@@ -4,6 +4,7 @@ from lxml import etree
 import datetime
 import xlsxwriter
 import io
+import xlrd
 import base64
 
 # table for hotel room
@@ -24,6 +25,8 @@ class HotelRoom(models.Model):
 		('draft', 'Draft'),
 			('allocated', 'Allocated')],default='draft')
 	#this gives you number of record for that id
+
+	
 
 	def count_regi(self):
 		count = self.env['hotel.registration'].search_count([('room_ids.room_id.room_type','=',self.room_type.id)])
@@ -195,18 +198,6 @@ class HotelRegistration(models.Model):
 		'state':'done'
 		})
 			
-
-# class CrmReport(models.TransientModel):  
-#     _name = 'crm.won.lost.report'       
-#     start_date = fields.Date('Start Date')    
-#     end_date = fields.Date('End Date',default=fields.Date.today)     
-#     def print_xls_report(self,cr,uid,ids,context=None):       
-#         data= self.read(cr, uid, ids)[0]
-#         return {'type': 'ir.actions.report.xml',               
-#         'report_name': 'hotel_management_project.report_hotel_xls.xlsx',              
-#         'datas': data             
-#         }
-
 # table for CustomerGuest
 class CustomerGuest(models.Model):
 	_name = 'customer.guest'
@@ -342,7 +333,7 @@ class WizardReport(models.TransientModel):
 
 		worksheet.set_column(0, 8, 30)
 		worksheet.write(0,0,'Date From',merge_format)
-		worksheet.write(0,2,'Date To',merge_format)
+		worksheetself.env['purchase.order'].method_b().write(0,2,'Date To',merge_format)
 		
 		
 
@@ -391,25 +382,29 @@ class WizardReport(models.TransientModel):
 			'url': '/web/content/' + str(attch.id) + '?download=True',
 			'target':self
 		}
+
+
+#class to import excel file 
 class ImportRoom(models.TransientModel):
 	_name = "import.room.wizard"
 
+	text = fields.Text(default="Excel File must be in formate like :- Room No,Room Type(id),Floor,Size,Price" ,readonly=True)
 	upload = fields.Binary(string="Upload File")
 
 	def import_room_id(self):
-		# Generating of the excel file to be read by openpyxl
 		ab = xlrd.open_workbook(file_contents=base64.decodebytes(self.upload))
+		print("---------------------------------\n\n\n\n\n",ab)
 		for websheet in ab.sheets():
-			room_no:websheet.cell(0,0).value
-			room_type:websheet.cell(0,1).value
-			hotel_floor:websheet.cell(0,2).value
-			room_size:websheet.cell(0,3).value
-			room_price:websheet.cell(0,4).value
+			for row in range(1,websheet.nrows):
+				room_no=websheet.cell(row,0).value
+				room_type=websheet.cell(row,1).value
+				hotel_floor=websheet.cell(row,2).value
+				room_size=websheet.cell(row,3).value
+				room_price=websheet.cell(row,4).value
 
-		self.env['hotel.room'].create({
-			'room_no':int(room_no),
-			'room_type':int(room_type),
-			'hotel_floor':int(hotel_floor),
-			'room_size':int(room_size),
-			'room_price':int(room_price),			
-			})
+
+				self.env['hotel.room'].create({'room_no':int(room_no),
+					'room_type':int(room_type),'hotel_floor':str(hotel_floor),
+					'room_size':int(room_size),
+					'room_price':float(room_price)		
+					})
