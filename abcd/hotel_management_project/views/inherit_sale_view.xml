@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this will create button inside sale order  -->
+<odoo>
+	<record id="view_order_form_inherit_pur" model="ir.ui.view">
+		<field name="name">Order</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_order_form"/>
+		<field name="arch" type="xml">
+			<field name="order_line" position="before">
+				<button name="call_button" type="object" string= "Create" /><br/>
+			</field>
+		</field>
+	</record>
+
+</odoo>

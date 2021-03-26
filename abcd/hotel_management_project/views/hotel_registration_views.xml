@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- registration form  -->
 <odoo>
 	<record id="regi_form" model="ir.ui.view">
             <field name="name">Registration</field>
@@ -11,6 +12,7 @@
                        <field name="state" widget="statusbar" clickable="True"/>
                        <button string="Send Email"  type="object" name="send_regi_email"/>
                     </header>
+                    <widget name="web_ribbon" title="Registration" bg_color="bg-primary"/>
                         <group>
                             <field name="registration_sequence"/> 
                             <field name="customer_name"/>

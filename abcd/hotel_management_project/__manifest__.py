@@ -9,7 +9,7 @@
 
     'website': 'abc@gmail.com',
 
-	'depends': ['base','mail'],
+	'depends': ['base','mail','sale'],
 
     'data': [
         'security/ir.model.access.csv',
@@ -27,6 +27,8 @@
         # 'report/report_xlsx.xml',
         'views/xlsx_report_views.xml',
         'views/import_room_wizard.xml',
+        'views/inherit_sale_view.xml',
+        'views/sales_wizard_views.xml',
         
 
 

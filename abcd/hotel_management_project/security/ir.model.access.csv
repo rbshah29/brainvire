@@ -8,3 +8,4 @@ access_registration_inquiry,access_registration_inquiry,hotel_management_project
 access_customer_guest_line,access_customer_guest_line,hotel_management_project.model_customer_guest_line,base.group_user,1,1,1,1
 access_wizard_report,access_wizard_report,hotel_management_project.model_wizard_report,base.group_user,1,1,1,1
 access_import_room_wizard,access_import_room_wizard,hotel_management_project.model_import_room_wizard,base.group_user,1,1,1,1
+access_inherit_sale_id,access_inherit_sale_id,hotel_management_project.model_inherit_sale_id,base.group_user,1,1,1,1

@@ -408,3 +408,60 @@ class ImportRoom(models.TransientModel):
 					'room_size':int(room_size),
 					'room_price':float(room_price)		
 					})
+
+
+#this class will inherit sale order and put button which will open wizard 
+class InheritSale(models.Model):
+	_inherit = "sale.order"
+
+	file_data = fields.Binary(string="Click")
+
+	def call_button(self):
+
+		print("\n\n\n\n\n\n\n",self.id)		
+		return {
+			 'name': 'inherit_wizard',
+			 'res_model': "inherit.sale.id",
+			 'type': 'ir.actions.act_window',
+			 'view_mode': 'form',
+			 'view_type': 'form',
+			 'context':{'default_field_id':self.id},
+			 'view_id': self.env.ref("hotel_management_project.import_room_sale").id,
+			 'target': 'new'
+		 }
+
+
+# this will open a wizard 
+class InheritSaleId(models.TransientModel):
+	_name = "inherit.sale.id"
+
+	field_id = fields.Char(string="Id of Order")
+	file = fields.Binary(string='File')
+
+	def sale_import(self):
+		wb = xlrd.open_workbook(file_contents=base64.decodebytes(self.file))
+		for websheet in wb.sheets():
+			for row in range(1,websheet.nrows):
+				product_name=websheet.cell(row,0).value
+				name=websheet.cell(row,1).value
+				product_uom_qty=websheet.cell(row,2).value
+				price_unit=websheet.cell(row,3).value
+
+				# print("\n\n\n\n\n\n\n--------------------------\n\n\n\n",product_id,name,product_uom_qty,price_unit)
+
+				active_id = self.env.context.get('active_id')
+				sale_order = self.env['sale.order'].search([("id","=",active_id)])
+
+				product = self.env['product.product'].create({
+					'name' : str(product_name)
+					}).id
+
+				print("\n\n\n\n\nsaleorder\n>>>>>>>>>>>>>>>>>>>>>>>",sale_order)
+		
+				self.env['sale.order.line'].create({
+					'product_id':product,
+					'order_id':int(sale_order),
+					'name': str(name),
+					'product_uom_qty': float(product_uom_qty) ,
+					'price_unit': float(price_unit)
+					})

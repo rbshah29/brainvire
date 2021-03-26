@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- rooms view  -->
+
 <odoo>
-	   <!--    <record id = "hospital_search" model="ir.ui.view">
-                <field name="name">search</field>
-                <field name="model">hotel.room</field>
-                <field name="arch" type="xml">
-                <search>
-                    <filter string="Delux" name="room_type" domain="[('room_type','=','delux')]"/>
-                    <filter string="King Size" name="room_type" domain="[('room_type','=','king size')]"/>
-                    <filter string="Super Delux" name="room_type" domain="[('room_type','=','super delux')]"/>
-                    
-                </search>
-                </field>
-        </record> -->
-  
+
 
         <record id="hotel_room_form" model="ir.ui.view">
             <field name="name">form</field>

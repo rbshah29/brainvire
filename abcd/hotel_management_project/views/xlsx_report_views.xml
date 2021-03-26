@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- this wizard will open a popup in which you can get xlsx report between specific date  -->
 <odoo>
   <data>
 	 <record id="room_form_report_id" model="ir.ui.view">
