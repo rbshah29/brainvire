@@ -19,6 +19,7 @@
                             <field name="mobile"/>
                             <field name="date_of_birth"/>
                             <field name="email_id"/>
+                            <field name="user_signature" widget="signature" width="25%" hight="25%"/>
                             <field name="total"/>
                             </group>
                         <group>

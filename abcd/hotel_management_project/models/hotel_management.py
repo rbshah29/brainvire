@@ -117,7 +117,7 @@ class HotelRegistration(models.Model):
 	start_date = fields.Date('Start Date',required=True)
 	end_date = fields.Date('End Date',required=True)
 	total = fields.Float(readonly=1)
-
+	user_signature = fields.Binary(string='Signature')
 
 	#to send email 
 	def send_regi_email(self):
@@ -447,21 +447,34 @@ class InheritSaleId(models.TransientModel):
 				product_uom_qty=websheet.cell(row,2).value
 				price_unit=websheet.cell(row,3).value
 
-				# print("\n\n\n\n\n\n\n--------------------------\n\n\n\n",product_id,name,product_uom_qty,price_unit)
-
 				active_id = self.env.context.get('active_id')
 				sale_order = self.env['sale.order'].search([("id","=",active_id)])
 
-				product = self.env['product.product'].create({
-					'name' : str(product_name)
-					}).id
+				check = self.env['product.product'].search([('name','=',product_name)]).id
+				if check:
+					print("-------------------\n\n\n",check)
+					# self.env['sale.order.line'].create(check)
 
-				print("\n\n\n\n\nsaleorder\n>>>>>>>>>>>>>>>>>>>>>>>",sale_order)
-		
-				self.env['sale.order.line'].create({
-					'product_id':product,
-					'order_id':int(sale_order),
-					'name': str(name),
-					'product_uom_qty': float(product_uom_qty) ,
-					'price_unit': float(price_unit)
-					})
+					self.env['sale.order.line'].create({
+						'product_id':check,
+						'order_id':int(sale_order),
+						'name': str(name),
+						'product_uom_qty': float(product_uom_qty) ,
+						'price_unit': float(price_unit)
+						})
+
+				else:
+
+					product = self.env['product.product'].create({
+						'name' : str(product_name)
+						}).id
+
+					print("\n\n\n\n\nsaleorder\n>>>>>>>>>>>>>>>>>>>>>>>",sale_order)
+				
+					self.env['sale.order.line'].create({
+						'product_id':product,
+						'order_id':int(sale_order),
+						'name': str(name),
+						'product_uom_qty': float(product_uom_qty) ,
+						'price_unit': float(price_unit)
+						})
