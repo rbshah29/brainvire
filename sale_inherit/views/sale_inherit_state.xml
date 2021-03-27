@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <record id="inherit_button_sale" model="ir.ui.view">
+    <field name="name">Order</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='state']" position="replace">
+        <field name="state" widget="statusbar" statusbar_visible="draft,sent,to_approve,sale"/>
+      </xpath>
+
+
+      <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="before">
+        <button name="approve_click" states="draft" string="Approve" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', ['sale', 'to_approve']),('state', '=', 'draft')]}" 
+        type="object"  groups="sale_inherit.group_manager"/>
+      </xpath>
+    
+    </field>
+  </record>
+
+</odoo>

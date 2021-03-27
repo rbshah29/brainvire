@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.actions.act_window" id="action_to_approve">
+		<field name="name">Approve</field>
+		<field name="res_model">sale.order</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('state','=','to_approve')]</field>
+		<field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>		
+	</record>
+	
+	<menuitem parent="sale.sale_order_menu" id="sale_approved" action="action_to_approve" groups="sale_inherit.group_manager"/>
+</odoo>
