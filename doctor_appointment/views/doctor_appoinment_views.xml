@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- guest view list  -->
+<odoo>
+	 <record id="appoinment" model="ir.ui.view">
+            <field name="name">Appoinment</field>
+            <field name="model">web.appointment</field>
+            <field name="arch" type="xml">
+                <form string="Clinic">
+                    <group>
+                        <field name="name"/>
+                        <field name="age"/>
+                        <field name='dob'/>
+                        <field name="email"/>
+                        <field name="contact_number"/>
+                        <!-- <field name='dob'/> -->
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="room_tree" model="ir.ui.view">
+            <field name="name">Appoinment</field>
+            <field name="model">web.appointment</field>
+            <field name="arch" type="xml">
+                <tree string="Clinic">
+                        <field name="name"/>
+                        <field name="age"/>
+                        <field name='dob'/>
+                        <field name="email"/>
+                        <field name="contact_number"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="appointment_action">
+            <field name="name">Appoinment</field>
+            <field name="res_model">web.appointment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="doctor_appointment" name="Doctor Appointment"/>
+
+        <menuitem parent="doctor_appointment" id="clinic_menu" name="Clinic" action='appointment_action'/>
+
+    
+</odoo>

@@ -1,0 +1,19 @@
+<odoo>
+<template id="thank_you_template" name="Customer Form Successfully Submitted">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <br/>
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            Appointment created successfully.
+                        </div>
+                        <div style='background-color:cyan;'>
+                            We Will Get In Touch As Soon As Possible
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
