@@ -1,0 +1,8 @@
+1) Please Add one Note button inside pos screen
+2) Click on that button popup should be open, where we can add note for order
+3) This note data need to pass inside pos order bakend Note Field(Need to add Text field
+
+in this we are using js to apply custom button inside pos screen, and also to take data from screen to backend(JSON)
+ 
+
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	 <record id="document_form" model="ir.ui.view">
+            <field name="name">document.form</field>
+            <field name="model">document</field>
+            <field name="arch" type="xml">
+                <form string="document">
+                	<sheet> 
+                        <group>
+                             <group string="Document">
+
+                                <field name="document" string="Document"/>
+                          
+                                <field name="name_doc" string="Name of Document"/>
+                           
+                                <field name="date_doc" string="Today's Date"/>                           
+                            </group>
+			            </group>
+			        </sheet>                             
+                </form>
+            </field>
+        </record>
+
+        <record id="document_tree" model="ir.ui.view">
+            <field name="name">document.tree</field>
+            <field name="model">document</field>
+            <field name="arch" type="xml">
+                <tree string="document">
+                    <field name="document"/>
+                    <field name="name_doc"/>
+                    <field name="date_doc"/>
+                </tree>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="document_action">
+            <field name="name">document</field>
+            <field name="res_model">document</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Enter details
+                </p>
+            </field>
+        </record>
+
+      <!--   <menuitem id="school_id" name="School Management"/>
+        <menuitem parent="school_id" id="document_menu" name="document" action="document_action"/> -->
+
+</odoo>

@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="product_brand_form_view">
+            <field name="name">POS Order Note</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <field name="fiscal_position_id" position="after">
+                    <field name="order_note"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

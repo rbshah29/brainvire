@@ -1,0 +1,33 @@
+<template>
+
+<t t-name="NotePopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-textinput">
+                <header class="title">
+                    <t t-esc=" widget.options.title || '' " />
+                </header>
+                <input type='text' class="popup_note" name="popup_note"></input>
+                <div class="footer">
+                    <div class="button confirm">
+                        Confirm
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="ProductScreenWidget">
+        <t t-jquery='div.placeholder-ActionpadWidget' t-operation='before'>
+             <div class='control-button' style="width: 70%;margin-top: 5px;margin-bottom: -5px;">
+            <div class="notes">
+                <i class='fa fa-star'/> Add Note
+            </div>
+        </div>
+        </t>
+    </t>
+
+</template>
+

@@ -1,0 +1,11 @@
+<odoo>
+  <data>
+
+     <template id="demo_example_ext_js" name="POS Order Note" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/pos_note/static/pos_pre_note_template.js"></script>
+        </xpath>
+    </template>
+
+  </data>
+</odoo>
